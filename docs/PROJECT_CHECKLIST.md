@@ -12,7 +12,7 @@ This is the working source of truth for delivery. It is updated as work is compl
 - [x] Initialise a local Git repository.
 - [x] Write the core deployment README.
 - [x] Resolve the Windows Git safe-directory warning.
-- [ ] Create or connect the GitHub repository.
+- [x] Connect and push the GitHub repository: `doctorpentagon/digitmed` (`main`).
 - [x] Make the first clean, reviewed commit (`d66772d`).
 
 ## 2. Pilot product completion
