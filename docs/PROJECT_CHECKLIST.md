@@ -36,7 +36,7 @@ This is the working source of truth for delivery. It is updated as work is compl
 
 - [x] Select Supabase as the persistent backend direction.
 - [ ] Create a Supabase project in the correct data-residency region.
-- [ ] Add database migrations for facilities, users, documents, conversion jobs, records, field provenance, audit events, and subscriptions.
+- [x] Add and apply the initial database migration for facilities, documents, records, and audit events. User/auth, field provenance, and subscription migrations remain planned.
 - [ ] Add private Storage buckets with signed upload/download URLs.
 - [ ] Add Row Level Security policies before real facility data is stored.
 - [ ] Add Edge Functions or a secure API boundary for conversion-job creation.
