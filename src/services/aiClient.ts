@@ -32,5 +32,14 @@ export async function batchConvert() { /* [AI-INTEGRATION-POINT] POST /api/v1/ba
 export function exportFHIR(record: ClinicalRecord) { // [AI-INTEGRATION-POINT] POST /api/v1/records/:id/fhir
   return { resourceType: 'Bundle', type: 'collection', entry: [{ resource: { resourceType: 'Patient', id: record.patient.patientRef, name: [{ text: record.patient.name }] } }, { resource: { resourceType: 'DocumentReference', status: 'current', description: record.documentType } }] }
 }
+export function exportRecordPdf(record: ClinicalRecord) {
+  const text = ['DigitMed - Structured Patient Record', `Patient: ${record.patient.name} | ${record.patient.age} | ${record.patient.sex}`, `Reference: ${record.patient.patientRef}`, `Document type: ${record.documentType}`, '', ...record.sections.flatMap(section => [section.title.toUpperCase(), ...section.fields.map(field => `${field.label}: ${field.value}`), '']), `Overall confidence: ${Math.round((record.overallConfidence || 0) * 100)}%`, 'Clinician review is required before clinical use.'].map(line => line.replace(/[\\()]/g, '\\$&').replace(/[^\x20-\x7E]/g, ' '))
+  const stream = `BT\n/F1 16 Tf\n50 790 Td\n(${text[0]}) Tj\n/F1 10 Tf\n${text.slice(1, 48).map(line => `0 -16 Td\n(${line.slice(0, 110)}) Tj`).join('\n')}\nET`
+  const objects = ['<< /Type /Catalog /Pages 2 0 R >>', '<< /Type /Pages /Kids [3 0 R] /Count 1 >>', '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>', `<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`, '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>']
+  let pdf = '%PDF-1.4\n'; const offsets = [0]
+  objects.forEach((object, index) => { offsets.push(pdf.length); pdf += `${index + 1} 0 obj\n${object}\nendobj\n` })
+  const xref = pdf.length; pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n${offsets.slice(1).map(offset => `${String(offset).padStart(10, '0')} 00000 n `).join('\n')}\ntrailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`
+  return new Blob([pdf], { type: 'application/pdf' })
+}
 export async function classifyType(value: string) { /* [AI-INTEGRATION-POINT] POST /api/v1/classify */ return value }
 export async function health() { /* [AI-INTEGRATION-POINT] GET /api/v1/health */ return { status: 'mock' } }

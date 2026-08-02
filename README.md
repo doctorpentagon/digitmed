@@ -147,6 +147,16 @@ The assessment runs entirely on the device and does not upload image pixels. The
 
 Before a frontend checkpoint is released, run `npm run build`, then inspect the core routes at 390px, 768px, and 1440px. The baseline check completed on the upload flow, tablet landing page, and desktop dashboard with no horizontal overflow. Repeat the same checks whenever a screen gains a new dense layout, table, modal, or long clinical field.
 
+### Record provenance and exports
+
+The structured record header has three separate clinician actions:
+
+- **View source** opens a full-screen provenance lightbox. Selecting a structured field keeps its contextual highlight visible, supporting a compare-and-verify workflow.
+- **PDF** creates a simple, readable one-page pilot record export locally in `exportRecordPdf()` in `src/services/aiClient.ts`. It is intentionally not a signed clinical document or a replacement for an approved facility report template.
+- **FHIR** downloads the existing interoperable JSON Bundle. Its basic V1 mapping is in `exportFHIR()` in the same file.
+
+All current exports are client-side pilot exports. Before any production deployment, add authenticated server-side audit logging, organisation-specific document templates, retention controls, and a compliance review.
+
 ### Mock versus live API mode
 
 The frontend reads these environment variables at build time:

@@ -27,7 +27,7 @@ This is the working source of truth for delivery. It is updated as work is compl
 - [x] Client-side FHIR Bundle generation and download.
 - [x] Product copy for Nigerian hospitals, clinics, and health builders.
 - [ ] Manual camera crop remains planned. Camera capture, review, and local blur-quality assessment are complete, including permission and unavailable-device fallbacks.
-- [ ] Full-screen provenance lightbox and record PDF export.
+- [x] Full-screen provenance lightbox and client-side record PDF export. The lightbox provides clinician verification context; the PDF is a readable pilot export and FHIR JSON remains separately available.
 - [ ] Batch error triage and all remaining detailed modal states from the build specification.
 - [x] Core-route browser/device visual QA at 390px, tablet (768px), and desktop (1440px) reference widths. No horizontal overflow observed; repeat this check for each new complex screen.
 - [ ] Automated component, state-machine, and accessibility tests.
