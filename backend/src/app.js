@@ -1,11 +1,11 @@
 import cors from 'cors'
 import express from 'express'
-import { hasSupabaseConfig } from './config/env.js'
+import { env, hasSupabaseConfig } from './config/env.js'
 import { databaseHealth } from './infrastructure/database.js'
 import { demoRecord } from './fixtures/record.js'
 
 export const app = express()
-app.use(cors({ origin: true }))
+app.use(cors({ origin: env.nodeEnv === 'production' ? env.corsOrigins : true }))
 app.use(express.json({ limit: '2mb' }))
 
 app.get('/api/v1/health', async (_request, response) => {
