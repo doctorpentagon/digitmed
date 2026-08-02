@@ -314,6 +314,16 @@ DigitMed's current baseline candidate is [`microsoft/trocr-base-handwritten`](ht
 
 Use this candidate first for a zero-shot/draft-transcription benchmark. Fine-tuning on 29 examples is not defensible; more data can support annotation acceleration, but only a consented, de-identified, writer/facility-safe held-out dataset can support selection or an accuracy claim. CRAFT is not a mandatory TrOCR dependency: it is one possible text-region detector. We must benchmark line/page segmentation separately because handwritten clinical pages are harder than CRAFT's typical scene-text target.
 
+### Controlled local intake from Drive exports
+
+Export a small approved image sample from Drive to a local folder outside the repository, then run:
+
+```bash
+python training/scripts/intake_local_images.py --source-dir "C:/path/to/exported-images" --source-group old_handwriting_split_1 --limit 10
+```
+
+This copies images to the ignored `training/data/images/` directory under anonymous IDs, writes `manifest-draft.jsonl` without personal filenames, and writes the sensitive original-name mapping only to ignored `training/data/restricted/`. It deliberately marks all samples `not_approved` and `redaction_reviewed: false`; a human must complete those gates before preprocessing, transcription, annotation, or training.
+
 ### Do not begin with GGUF
 
 GGUF is normally a compressed deployment format for local inference. It is not the dataset format or training strategy for handwriting recognition. DigitMed needs a pipeline:
