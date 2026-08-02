@@ -157,6 +157,10 @@ The structured record header has three separate clinician actions:
 
 All current exports are client-side pilot exports. Before any production deployment, add authenticated server-side audit logging, organisation-specific document templates, retention controls, and a compliance review.
 
+### Batch triage
+
+`/batch` accepts up to 100 local images or PDFs. It flags filenames containing `blurry`, `fail`, or `error` so the pilot team can exercise the unreadable-document path, then allows retry, removal, and queueing of ready documents. This is a client-side workflow preview; it becomes a real batch processor only after the asynchronous worker and secure source storage milestones are complete.
+
 ### Mock versus live API mode
 
 The frontend reads these environment variables at build time:
