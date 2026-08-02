@@ -143,6 +143,10 @@ Whether a team member uploads a file or captures a photo, DigitMed routes throug
 
 The assessment runs entirely on the device and does not upload image pixels. The current threshold (`variance > 55`) is a practical pilot heuristic, not a validated clinical-quality model. A manual crop/edge-correction tool is still on the roadmap; keep that distinction clear in product claims.
 
+### Responsive quality checks
+
+Before a frontend checkpoint is released, run `npm run build`, then inspect the core routes at 390px, 768px, and 1440px. The baseline check completed on the upload flow, tablet landing page, and desktop dashboard with no horizontal overflow. Repeat the same checks whenever a screen gains a new dense layout, table, modal, or long clinical field.
+
 ### Mock versus live API mode
 
 The frontend reads these environment variables at build time:
