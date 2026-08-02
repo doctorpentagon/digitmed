@@ -49,7 +49,7 @@ This is the working source of truth for delivery. It is updated as work is compl
 - [x] Define the model boundary: image quality → classification → handwriting recognition → clinical structuring → confidence/provenance → human review.
 - [x] Create a consented-data manifest and de-identification workflow contract. Operational approvals and real data collection remain external requirements.
 - [x] Define annotation schemas for transcription, document type, field extraction, polygons/bounding boxes, and review status.
-- [ ] Build image preprocessing: rotation, crop, illumination, blur detection, redaction, and quality reports.
+- [x] Build a reviewable preprocessing harness: deskew/rotation, illumination normalisation, blur and resolution quality reports, and human-approved redaction application. Automated crop correction and operational data review remain future work.
 - [x] Create reproducible train/validation/test splits by facility and writer, preventing data leakage.
 - [ ] Implement baseline OCR/model benchmark adapters.
 - [ ] Implement metric reporting: CER, WER, field accuracy, confidence calibration, and review workload.

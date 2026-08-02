@@ -277,6 +277,18 @@ The current mock adapter:
 
 The runnable, data-free starter harness lives in `training/`. Begin with [training/README.md](training/README.md), then use the JSON schemas and deterministic split script only after facility approval, consent/lawful-basis confirmation, and de-identification review. The entire `training/data/`, `training/runs/`, and `training/models/` directories are intentionally ignored by Git.
 
+### Image preprocessing and redaction
+
+`training/scripts/preprocess.py` is the offline data-preparation step for approved GPU work. It deskews a page, normalises uneven illumination, records blur/resolution quality signals, and applies black redaction rectangles from `redactions.jsonl`. It will fail closed when consent, de-identification review, or explicit human redaction approval is absent. It does **not** attempt automatic PHI detection or claim that redaction has been independently verified.
+
+On an approved Python environment, install `training/requirements.txt`, then run:
+
+```bash
+python training/scripts/preprocess.py --manifest training/data/manifest.jsonl --image-root training/data --redactions training/data/redactions.jsonl --output-root training/data/processed --report training/runs/preprocess-report.json
+```
+
+Review the generated report and its blocked/flagged items before annotation. The current harness does not automatically crop document edges; that remains a separate, testable preprocessing addition.
+
 ### Do not begin with GGUF
 
 GGUF is normally a compressed deployment format for local inference. It is not the dataset format or training strategy for handwriting recognition. DigitMed needs a pipeline:

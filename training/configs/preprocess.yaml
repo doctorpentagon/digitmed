@@ -1,0 +1,14 @@
+input_manifest: training/data/manifest.jsonl
+image_root: training/data
+output_root: training/data/processed
+quality:
+  minimum_laplacian_variance: 55
+  minimum_width: 640
+  minimum_height: 480
+processing:
+  deskew: true
+  normalize_illumination: true
+  apply_human_approved_redactions: true
+redaction:
+  manifest: training/data/redactions.jsonl
+  fail_closed_if_missing: true
