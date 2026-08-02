@@ -11,9 +11,9 @@ This is the working source of truth for delivery. It is updated as work is compl
 - [x] Create a deployable Vercel configuration and Render API configuration.
 - [x] Initialise a local Git repository.
 - [x] Write the core deployment README.
-- [ ] Resolve the Windows Git safe-directory warning.
+- [x] Resolve the Windows Git safe-directory warning.
 - [ ] Create or connect the GitHub repository.
-- [ ] Make the first clean, reviewed commit.
+- [x] Make the first clean, reviewed commit (`d66772d`).
 
 ## 2. Pilot product completion
 
