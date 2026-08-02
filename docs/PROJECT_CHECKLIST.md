@@ -26,7 +26,7 @@ This is the working source of truth for delivery. It is updated as work is compl
 - [x] Field-level confidence handling and source provenance highlight.
 - [x] Client-side FHIR Bundle generation and download.
 - [x] Product copy for Nigerian hospitals, clinics, and health builders.
-- [ ] Camera capture, crop, and blur-quality assessment flow.
+- [ ] Camera crop and blur-quality assessment. Camera capture with permission and unavailable-device fallbacks is complete.
 - [ ] Full-screen provenance lightbox and record PDF export.
 - [ ] Batch error triage and all remaining detailed modal states from the build specification.
 - [ ] Browser/device visual QA at 390px, tablet, and desktop reference widths.
