@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DigitMed de-identified dataset manifest item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["sample_id", "working_image_path", "facility_id", "document_type", "consent_status", "deidentified_at", "redaction_reviewed", "annotation_status"],
+  "properties": {
+    "sample_id": {"type": "string", "pattern": "^[a-zA-Z0-9_-]{8,64}$"},
+    "working_image_path": {"type": "string", "pattern": "^images/"},
+    "facility_id": {"type": "string", "description": "Pseudonymous facility key"},
+    "writer_id": {"type": ["string", "null"], "description": "Pseudonymous handwriting key; never patient identity"},
+    "document_type": {"enum": ["outpatient_note", "prescription", "admission_note", "laboratory_request", "referral_letter", "other"]},
+    "consent_status": {"enum": ["approved", "not_approved", "withdrawn"]},
+    "deidentified_at": {"type": "string", "format": "date-time"},
+    "redaction_reviewed": {"type": "boolean"},
+    "annotation_status": {"enum": ["unassigned", "in_progress", "reviewed", "rejected"]},
+    "capture_quality": {"enum": ["good", "blurred", "glare", "cropped", "low_light", "other"]}
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DigitMed clinical-document annotation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["sample_id", "transcription", "document_type", "review_status", "annotator_id"],
+  "properties": {
+    "sample_id": {"type": "string"},
+    "transcription": {"type": "string", "minLength": 1},
+    "document_type": {"type": "string"},
+    "fields": {"type": "array", "items": {"type": "object", "required": ["label", "value", "confidence", "polygon"], "properties": {"label": {"type": "string"}, "value": {"type": "string"}, "confidence": {"type": "number", "minimum": 0, "maximum": 1}, "polygon": {"type": "array", "minItems": 4, "items": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number"}}}}}},
+    "review_status": {"enum": ["verified", "needs_second_review", "rejected"]},
+    "annotator_id": {"type": "string", "description": "Pseudonymous annotator key"}
+  }
+}

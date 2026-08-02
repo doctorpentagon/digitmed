@@ -6,6 +6,13 @@ __pycache__/
 *.pyc
 backend/.env
 
+# Never commit clinical source data, working derivatives, labels, model weights,
+# experiment artefacts, or local training credentials.
+/training/data/
+/training/runs/
+/training/models/
+/training/.env
+
 # Local source/reference archive. Keep these internal until an explicit
 # decision is made to publish them in a private documentation repository.
 /Awibi DigitMed UI screens/

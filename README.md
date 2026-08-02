@@ -275,6 +275,8 @@ The current mock adapter:
 
 ## Training harness plan
 
+The runnable, data-free starter harness lives in `training/`. Begin with [training/README.md](training/README.md), then use the JSON schemas and deterministic split script only after facility approval, consent/lawful-basis confirmation, and de-identification review. The entire `training/data/`, `training/runs/`, and `training/models/` directories are intentionally ignored by Git.
+
 ### Do not begin with GGUF
 
 GGUF is normally a compressed deployment format for local inference. It is not the dataset format or training strategy for handwriting recognition. DigitMed needs a pipeline:

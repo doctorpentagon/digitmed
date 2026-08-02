@@ -1,0 +1,24 @@
+run_name: baseline_handwriting_v1
+seed: 42
+data:
+  manifest: training/data/splits.jsonl
+  image_root: training/data
+  train_split: train
+  validation_split: validation
+  test_split: test
+  require_redaction_review: true
+model:
+  family: "TBD-after-benchmark"
+  task: handwritten_text_recognition
+training:
+  precision: bf16
+  batch_size: 8
+  gradient_accumulation: 4
+  epochs: 20
+  learning_rate: 0.00003
+evaluation:
+  metrics: [cer, wer, field_accuracy, confidence_calibration, reviewer_workload]
+  save_predictions: true
+governance:
+  public_accuracy_claims_allowed: false
+  require_held_out_nigerian_evaluation: true

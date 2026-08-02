@@ -47,13 +47,13 @@ This is the working source of truth for delivery. It is updated as work is compl
 ## 4. V1 clinical document intelligence harness
 
 - [x] Define the model boundary: image quality → classification → handwriting recognition → clinical structuring → confidence/provenance → human review.
-- [ ] Create a consented-data manifest and de-identification workflow.
-- [ ] Define annotation schemas for transcription, document type, field extraction, polygons/bounding boxes, and review status.
+- [x] Create a consented-data manifest and de-identification workflow contract. Operational approvals and real data collection remain external requirements.
+- [x] Define annotation schemas for transcription, document type, field extraction, polygons/bounding boxes, and review status.
 - [ ] Build image preprocessing: rotation, crop, illumination, blur detection, redaction, and quality reports.
-- [ ] Create reproducible train/validation/test splits by facility and writer, preventing data leakage.
+- [x] Create reproducible train/validation/test splits by facility and writer, preventing data leakage.
 - [ ] Implement baseline OCR/model benchmark adapters.
 - [ ] Implement metric reporting: CER, WER, field accuracy, confidence calibration, and review workload.
-- [ ] Add a training configuration for a GPU environment.
+- [x] Add a portable training configuration for an approved GPU environment.
 - [ ] Add model registry metadata, experiment records, and reproducible model export.
 - [ ] Evaluate held-out Nigerian clinical handwriting before any public accuracy claim.
 
