@@ -328,6 +328,8 @@ This copies images to the ignored `training/data/images/` directory under anonym
 
 The portable fine-tuning entry point is `training/scripts/train_trocr.py`, with exact Kaggle/Colab steps in [training/KAGGLE_COLAB_GUIDE.md](training/KAGGLE_COLAB_GUIDE.md). It uses line-level, human-verified JSONL pairs, mixed precision, gradient accumulation, gradient checkpointing, early stopping, CER/WER validation, and a `--dry-run` that validates the dataset before consuming GPU time. Start on one GPU; the dataset and verified labels—not two GPUs—are the current constraint.
 
+The Kaggle guide now includes a mandatory preflight cell that reports GPU availability/count/device, lists mounted input datasets, validates the uploaded package path, and checks the required JSONL fields before package installation or training.
+
 ### Do not begin with GGUF
 
 GGUF is normally a compressed deployment format for local inference. It is not the dataset format or training strategy for handwriting recognition. DigitMed needs a pipeline:
