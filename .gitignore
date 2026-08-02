@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.env
+.venv/
+__pycache__/
+*.pyc
+backend/.env
+
+# Local source/reference archive. Keep these internal until an explicit
+# decision is made to publish them in a private documentation repository.
+/Awibi DigitMed UI screens/
+/Awibi DigitMed UI screens.zip
+/Awibi_Competitive_Landscape_Addendum.docx
+/Awibi_DigitMed_Pitch.pptx
+/Awibi_Research_Phase_Plan_24mo.docx
+/AWIBI_DIGITMED_V1_BUILD_SPEC.md
+/Sample pitch Awibi DigitMed.pdf
+/quadrant.png
+/sample competitor/
+/template coder/
