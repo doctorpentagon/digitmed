@@ -306,6 +306,14 @@ Every future run should be registered with `training/scripts/register_experiment
 
 `training/Dockerfile` provides a reproducible CUDA/Python starting point for an approved GPU environment. It does not contain data, secrets, or a selected model. Build and run it only in an approved private environment; do not transfer raw clinical images into a public container registry.
 
+### TrOCR baseline: download, drafts, and fine-tuning format
+
+DigitMed's current baseline candidate is [`microsoft/trocr-base-handwritten`](https://huggingface.co/microsoft/trocr-base-handwritten). It is an MIT-licensed `VisionEncoderDecoderModel` for **single handwritten text lines** and ships normal Transformers/safetensors weights—not a GGUF Q4 file. Download it on the approved GPU machine by installing PyTorch for that machine's CUDA version from [PyTorch's official selector](https://pytorch.org/get-started/locally/), then `pip install -r training/requirements-train.txt`. The first run of `infer_trocr.py` downloads the model into Hugging Face's local cache; the official repository is about 2.67 GB including duplicate weight formats.
+
+`training/scripts/infer_trocr.py` creates *draft* JSONL transcripts only. Every generated line is marked `needs_human_verification`; drafts must never be fine-tuning labels. After annotation review, `build_trocr_jsonl.py` emits the line-level `image` + `text` JSONL files expected by a standard Hugging Face dataset/training workflow. It only admits records whose manifest and annotation are both verified.
+
+Use this candidate first for a zero-shot/draft-transcription benchmark. Fine-tuning on 29 examples is not defensible; more data can support annotation acceleration, but only a consented, de-identified, writer/facility-safe held-out dataset can support selection or an accuracy claim. CRAFT is not a mandatory TrOCR dependency: it is one possible text-region detector. We must benchmark line/page segmentation separately because handwritten clinical pages are harder than CRAFT's typical scene-text target.
+
 ### Do not begin with GGUF
 
 GGUF is normally a compressed deployment format for local inference. It is not the dataset format or training strategy for handwriting recognition. DigitMed needs a pipeline:

@@ -89,3 +89,4 @@ This is the working source of truth for delivery. It is updated as work is compl
 | V1 AI mode | Local realistic mock adapter | Confirmed |
 | Training environment | Portable GPU harness, then approved cloud GPU | Planned |
 | Current local GPU | Quadro M1000M, 2 GB VRAM | Insufficient for meaningful training |
+| Baseline candidate | `microsoft/trocr-base-handwritten` for line-level benchmark/draft assistance; not yet selected for deployment | Under evaluation |

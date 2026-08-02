@@ -1,0 +1,24 @@
+base_model: microsoft/trocr-base-handwritten
+model_revision: main
+license: MIT
+task: handwritten_text_recognition
+unit_of_prediction: text_line
+data:
+  train_jsonl: training/data/trocr/train.jsonl
+  validation_jsonl: training/data/trocr/validation.jsonl
+  test_jsonl: training/data/trocr/test.jsonl
+  require_human_verified_transcripts: true
+  allowed_sources: [old_handwriting, current_handwriting]
+training:
+  strategy: "benchmark_zero_shot_then_fine_tune_after_held_out_review"
+  precision: bf16
+  per_device_batch_size: 4
+  gradient_accumulation: 8
+  learning_rate: 0.00003
+  max_steps: 1500
+generation:
+  max_new_tokens: 128
+governance:
+  synthetic_data_requires_separate_manifest: true
+  auto_generated_transcripts_are_not_ground_truth: true
+  publish_accuracy_claims_allowed: false

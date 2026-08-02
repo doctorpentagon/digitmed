@@ -1,0 +1,9 @@
+# Install PyTorch separately for the CUDA version on the approved GPU machine:
+# https://pytorch.org/get-started/locally/
+transformers==4.46.3
+datasets==3.1.0
+accelerate==1.1.1
+evaluate==0.4.3
+jiwer==3.0.5
+safetensors==0.4.5
+Pillow==10.4.0
