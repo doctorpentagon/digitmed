@@ -1,14 +1,19 @@
 import cors from 'cors'
 import express from 'express'
 import { hasSupabaseConfig } from './config/env.js'
+import { databaseHealth } from './infrastructure/database.js'
 import { demoRecord } from './fixtures/record.js'
 
 export const app = express()
 app.use(cors({ origin: true }))
 app.use(express.json({ limit: '2mb' }))
 
-app.get('/api/v1/health', (_request, response) => {
-  response.json({ status: 'healthy', service: 'digitmed-api', mode: hasSupabaseConfig ? 'supabase-ready' : 'demo', database: hasSupabaseConfig ? 'configured' : 'not-configured' })
+app.get('/api/v1/health', async (_request, response) => {
+  try {
+    response.json({ status: 'healthy', service: 'digitmed-api', mode: hasSupabaseConfig ? 'supabase-ready' : 'demo', database: await databaseHealth() })
+  } catch {
+    response.status(503).json({ status: 'degraded', service: 'digitmed-api', database: 'unreachable' })
+  }
 })
 
 app.post('/api/v1/convert', (request, response) => {
