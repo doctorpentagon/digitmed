@@ -51,8 +51,8 @@ This is the working source of truth for delivery. It is updated as work is compl
 - [x] Define annotation schemas for transcription, document type, field extraction, polygons/bounding boxes, and review status.
 - [x] Build a reviewable preprocessing harness: deskew/rotation, illumination normalisation, blur and resolution quality reports, and human-approved redaction application. Automated crop correction and operational data review remain future work.
 - [x] Create reproducible train/validation/test splits by facility and writer, preventing data leakage.
-- [ ] Implement baseline OCR/model benchmark adapters.
-- [ ] Implement metric reporting: CER, WER, field accuracy, confidence calibration, and review workload.
+- [x] Implement model-neutral baseline benchmark adapters, including a deliberately non-model fixture adapter for plumbing validation.
+- [x] Implement metric reporting: CER, WER, field accuracy, confidence calibration, and review workload.
 - [x] Add a portable training configuration for an approved GPU environment.
 - [ ] Add model registry metadata, experiment records, and reproducible model export.
 - [ ] Evaluate held-out Nigerian clinical handwriting before any public accuracy claim.

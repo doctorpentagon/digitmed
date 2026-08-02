@@ -1,0 +1,15 @@
+run_name: benchmark_v1
+dataset:
+  labels: training/data/annotations.jsonl
+  split_manifest: training/data/splits.jsonl
+  held_out_split: test
+baselines:
+  - name: manual_fixture
+    adapter: fixture
+  # Add approved provider/model adapters only after their security and data terms are reviewed.
+evaluation:
+  confidence_threshold: 0.90
+  output: training/runs/benchmark-report.json
+governance:
+  allow_identifiable_data: false
+  publish_accuracy_claims: false

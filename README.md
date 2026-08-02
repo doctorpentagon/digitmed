@@ -289,6 +289,17 @@ python training/scripts/preprocess.py --manifest training/data/manifest.jsonl --
 
 Review the generated report and its blocked/flagged items before annotation. The current harness does not automatically crop document edges; that remains a separate, testable preprocessing addition.
 
+### Benchmarking model candidates
+
+The benchmark harness is intentionally model-neutral. `training/scripts/evaluate.py` compares a candidate's JSONL predictions with held-out reviewed labels and outputs character error rate (CER), word error rate (WER), field accuracy, Brier confidence score, and the proportion of fields sent to clinician review. Lower CER, WER, and Brier scores are better; field accuracy is higher-is-better. The fixture adapter is only for validating the measurement pipeline and is not OCR or AI.
+
+```bash
+python training/scripts/fixture_baseline.py --labels training/data/annotations.jsonl --output training/runs/fixture-predictions.jsonl
+python training/scripts/evaluate.py --labels training/data/annotations.jsonl --predictions training/runs/fixture-predictions.jsonl --output training/runs/benchmark-report.json
+```
+
+Run benchmark reports only on the untouched, consented, de-identified test split. Do not select a model or publish an accuracy claim from fixture data, training data, or a non-Nigerian dataset.
+
 ### Do not begin with GGUF
 
 GGUF is normally a compressed deployment format for local inference. It is not the dataset format or training strategy for handwriting recognition. DigitMed needs a pipeline:
