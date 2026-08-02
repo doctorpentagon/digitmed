@@ -137,6 +137,12 @@ The key rule is that the source file must never be lost. `persistSource()` in `s
 
 Camera permissions are requested only after the user explicitly selects **Take a photo**. Do not request camera access on page load.
 
+### Capture review and image-quality signal
+
+Whether a team member uploads a file or captures a photo, DigitMed routes through `/upload/review` before document type selection. `CaptureReview` creates a local preview and estimates sharpness in the browser using a downscaled canvas and Laplacian-variance calculation. It gives one of two non-blocking signals: the image looks clear enough, or it may be blurred. The reviewer can always continue, because automated image quality is a prompt for human judgement, not a clinical decision.
+
+The assessment runs entirely on the device and does not upload image pixels. The current threshold (`variance > 55`) is a practical pilot heuristic, not a validated clinical-quality model. A manual crop/edge-correction tool is still on the roadmap; keep that distinction clear in product claims.
+
 ### Mock versus live API mode
 
 The frontend reads these environment variables at build time:
