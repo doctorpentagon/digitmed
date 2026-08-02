@@ -1,0 +1,15 @@
+# The Flask conversion API is deployed as a separate Render service.
+# This Vercel project builds and serves only the Vite frontend.
+backend/
+
+# Internal reference material is not needed by the frontend deployment.
+Awibi DigitMed UI screens/
+Awibi DigitMed UI screens.zip
+Awibi_Competitive_Landscape_Addendum.docx
+Awibi_DigitMed_Pitch.pptx
+Awibi_Research_Phase_Plan_24mo.docx
+AWIBI_DIGITMED_V1_BUILD_SPEC.md
+Sample pitch Awibi DigitMed.pdf
+quadrant.png
+sample competitor/
+template coder/
