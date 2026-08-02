@@ -54,7 +54,7 @@ This is the working source of truth for delivery. It is updated as work is compl
 - [x] Implement model-neutral baseline benchmark adapters, including a deliberately non-model fixture adapter for plumbing validation.
 - [x] Implement metric reporting: CER, WER, field accuracy, confidence calibration, and review workload.
 - [x] Add a portable training configuration for an approved GPU environment.
-- [ ] Add model registry metadata, experiment records, and reproducible model export.
+- [x] Add model registry metadata, experiment records, artifact hashes, and a reproducible GPU container handoff. A trained-model export still requires approved data and evaluation.
 - [ ] Evaluate held-out Nigerian clinical handwriting before any public accuracy claim.
 
 ## 5. Real model and conversion service

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "htr-baseline-001",
+  "dataset_version": "manifest-sha256-REPLACE_ME",
+  "approval": {
+    "held_out_evaluation_complete": false,
+    "clinical_review_complete": false,
+    "approved_by": null
+  },
+  "note": "Example only. Real registry entries must stay in training/runs/ and must not contain patient data."
+}

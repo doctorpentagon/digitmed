@@ -300,6 +300,12 @@ python training/scripts/evaluate.py --labels training/data/annotations.jsonl --p
 
 Run benchmark reports only on the untouched, consented, de-identified test split. Do not select a model or publish an accuracy claim from fixture data, training data, or a non-Nigerian dataset.
 
+### Experiment registry and GPU handoff
+
+Every future run should be registered with `training/scripts/register_experiment.py`. It records the Git commit, de-identified dataset version, configuration path, metrics, checkpoint/export SHA-256 hashes, and explicit approval flags in `training/runs/registry.jsonl` (which Git ignores). An evaluation result alone is not pilot approval: held-out evaluation and clinical review must both be recorded as complete.
+
+`training/Dockerfile` provides a reproducible CUDA/Python starting point for an approved GPU environment. It does not contain data, secrets, or a selected model. Build and run it only in an approved private environment; do not transfer raw clinical images into a public container registry.
+
 ### Do not begin with GGUF
 
 GGUF is normally a compressed deployment format for local inference. It is not the dataset format or training strategy for handwriting recognition. DigitMed needs a pipeline:

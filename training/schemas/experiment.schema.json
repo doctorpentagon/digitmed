@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DigitMed experiment registry record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["experiment_id", "created_at", "git_commit", "dataset_version", "config_path", "task", "status", "metrics", "approval"],
+  "properties": {
+    "experiment_id": {"type": "string"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "git_commit": {"type": "string"},
+    "dataset_version": {"type": "string", "description": "De-identified manifest version/hash only"},
+    "config_path": {"type": "string"},
+    "task": {"enum": ["handwritten_text_recognition", "document_classification", "field_extraction"]},
+    "status": {"enum": ["planned", "running", "evaluated", "rejected", "approved_for_pilot"]},
+    "metrics": {"type": "object"},
+    "artifacts": {"type": "object", "properties": {"checkpoint_sha256": {"type": "string"}, "export_sha256": {"type": "string"}, "uri": {"type": "string"}}},
+    "approval": {"type": "object", "required": ["held_out_evaluation_complete", "clinical_review_complete", "approved_by"], "properties": {"held_out_evaluation_complete": {"type": "boolean"}, "clinical_review_complete": {"type": "boolean"}, "approved_by": {"type": ["string", "null"]}}}
+  }
+}
