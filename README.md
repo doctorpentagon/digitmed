@@ -324,6 +324,10 @@ python training/scripts/intake_local_images.py --source-dir "C:/path/to/exported
 
 This copies images to the ignored `training/data/images/` directory under anonymous IDs, writes `manifest-draft.jsonl` without personal filenames, and writes the sensitive original-name mapping only to ignored `training/data/restricted/`. It deliberately marks all samples `not_approved` and `redaction_reviewed: false`; a human must complete those gates before preprocessing, transcription, annotation, or training.
 
+### Kaggle or Colab training handoff
+
+The portable fine-tuning entry point is `training/scripts/train_trocr.py`, with exact Kaggle/Colab steps in [training/KAGGLE_COLAB_GUIDE.md](training/KAGGLE_COLAB_GUIDE.md). It uses line-level, human-verified JSONL pairs, mixed precision, gradient accumulation, gradient checkpointing, early stopping, CER/WER validation, and a `--dry-run` that validates the dataset before consuming GPU time. Start on one GPU; the dataset and verified labels—not two GPUs—are the current constraint.
+
 ### Do not begin with GGUF
 
 GGUF is normally a compressed deployment format for local inference. It is not the dataset format or training strategy for handwriting recognition. DigitMed needs a pipeline:
