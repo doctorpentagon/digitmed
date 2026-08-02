@@ -93,9 +93,99 @@ Clinical Digitization/
 
 Public routes include `/`, `/for-hospitals`, `/pricing`, `/developers`, `/signup`, and `/login`.
 
-Product routes include `/dashboard`, `/upload`, `/upload/type`, `/convert/:jobId`, `/convert/:jobId/review`, `/convert/:jobId/failed`, `/records/:id`, `/history`, `/batch`, `/hospital-service`, `/settings`, and `/status`.
+Product routes include `/dashboard`, `/upload`, `/upload/camera`, `/upload/type`, `/convert/:jobId`, `/convert/:jobId/review`, `/convert/:jobId/failed`, `/records/:id`, `/history`, `/batch`, `/hospital-service`, `/settings`, and `/status`.
 
 V1 routes are intentionally direct. The sign-up and log-in screens are visual demo entry points, not real identity systems.
+
+## Beginner developer guide: how the app works
+
+This section is deliberately practical. A new developer should read it before editing the product.
+
+### Start here
+
+1. Read this README and `docs/PROJECT_CHECKLIST.md` first.
+2. Run the frontend locally with `npm install` then `npm run dev`.
+3. Open `/upload` and follow one successful conversion from start to finish.
+4. Read `src/app/App.tsx`. It currently composes the routes and the major pilot screens in one place.
+5. Read `src/services/aiClient.ts`. This is the only browser-side location allowed to call the conversion API.
+6. Read `backend/src/app.js`. This is the Node/Express HTTP API boundary.
+7. Read `supabase/migrations/0001_digitmed_core.sql` before changing the database schema.
+
+### Upload and conversion flow
+
+```text
+/upload
+  → user selects a source file or opens /upload/camera
+  → persistSource() saves the source in IndexedDB
+  → React state retains the File object
+  → /upload/type confirms document type
+  → /convert/:jobId runs mock or live conversion
+  → /convert/:jobId/review confirms low-confidence fields
+  → /records/:id shows the structured, provenance-linked record
+```
+
+The key rule is that the source file must never be lost. `persistSource()` in `src/services/jobStore.ts` writes the source into IndexedDB before conversion. Do not replace in-app React Router navigation with `window.location.assign()`: a full-page reload clears the in-memory `File` object and breaks the flow.
+
+### Camera capture
+
+`/upload/camera` uses the browser `MediaDevices.getUserMedia()` API. Its implementation is in `CameraPage` inside `src/app/App.tsx`.
+
+- On success, it opens the rear camera where available and converts a captured frame to a JPEG `File`.
+- On permission denial, it explains the problem and offers an upload fallback.
+- On unsupported devices, it offers the same upload fallback.
+- The camera stream is stopped when the user leaves the screen, preventing the device camera from remaining active.
+
+Camera permissions are requested only after the user explicitly selects **Take a photo**. Do not request camera access on page load.
+
+### Mock versus live API mode
+
+The frontend reads these environment variables at build time:
+
+| Variable | `mock` value | `live` value |
+|---|---|---|
+| `VITE_AI_MODE` | `mock` | `live` |
+| `VITE_AI_BASE_URL` | unused | Render API base URL, without `/api/v1` |
+| `VITE_AI_TIMEOUT_MS` | `30000` | `30000` |
+
+In mock mode, `convertDocument()` simulates realistic progress and returns safe fixtures. In live mode, it sends a JSON request to `${VITE_AI_BASE_URL}/api/v1/convert`. The current Node API is a contract stub: it returns the demo record and does not yet upload or process real source bytes.
+
+Never put database URLs, Supabase service-role keys, or model-provider secrets in a `VITE_` variable. Vite publishes every `VITE_` value into the browser bundle.
+
+### Node backend and Supabase
+
+The Node API lives in `backend/` and is independently deployed to Render.
+
+| File | Responsibility |
+|---|---|
+| `backend/src/server.js` | Starts the Express server and listens on Render's assigned port |
+| `backend/src/app.js` | Defines HTTP routes, CORS, request validation, and friendly API responses |
+| `backend/src/config/env.js` | Reads environment variables once and exposes safe configuration values |
+| `backend/src/infrastructure/database.js` | Creates the server-only PostgreSQL connection pool and health query |
+| `backend/src/infrastructure/supabase.js` | Holds the future server-only Supabase client boundary |
+| `backend/.env` | Local secrets only; ignored by Git |
+| `backend/.env.example` | Safe template committed for the team |
+
+For a persistent Render service, use the Supabase **Session Pooler** URI in `DATABASE_URL`. The URL must contain `.pooler.supabase.com` and port `5432`. Use `CORS_ORIGINS=https://digitmed.vercel.app` in Render production settings.
+
+### Changing the database safely
+
+1. Add a new, numbered SQL file under `supabase/migrations/`.
+2. Make additive changes first. Do not drop or rename columns holding clinical data without an approved migration plan.
+3. Apply the SQL in a non-production Supabase project first when one exists.
+4. Confirm Row Level Security is enabled before creating any client-facing access policy.
+5. Record the schema decision and completed checklist item in `docs/PROJECT_CHECKLIST.md`.
+6. Update this README with the new table's purpose, relationship, and access model.
+
+### Required verification before every pull request
+
+```powershell
+npm run build
+cd backend
+npm install
+node --input-type=module -e "import('./src/app.js').then(({app}) => console.log(typeof app))"
+```
+
+Also manually test the happy path, failed conversion (`fail` in a filename), permission-denied camera fallback, a 390px mobile layout, and a desktop layout.
 
 ## Run locally
 
