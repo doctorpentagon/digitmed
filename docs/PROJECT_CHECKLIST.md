@@ -6,9 +6,10 @@ This is the working source of truth for delivery. It is updated as work is compl
 
 - [x] Review the V1 build specification, supplied screen exports, research plan, competitive analysis, pitch, and coding standards.
 - [x] Correct the project name to **DigitMed**.
-- [x] Build the React/Vite frontend foundation and Flask API contract stub.
+- [x] Build the React/Vite frontend foundation and Node.js API contract stub.
 - [x] Establish the design tokens: Poppins, Inter, green product controls, orange marketing CTAs, responsive breakpoints, and accessibility motion preference.
 - [x] Create a deployable Vercel configuration and Render API configuration.
+- [x] Deploy the Vite frontend to Vercel.
 - [x] Initialise a local Git repository.
 - [x] Write the core deployment README.
 - [x] Resolve the Windows Git safe-directory warning.

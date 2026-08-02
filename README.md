@@ -63,9 +63,10 @@ Clinical Digitization/
 │   └── types/               # Domain models
 ├── public/images/           # Static project assets, including sample clinical note
 ├── backend/
-│   ├── app.py               # Flask API contract stub
-│   ├── requirements.txt
+│   ├── src/                 # Node/Express API, config, fixtures, Supabase client
+│   ├── package.json
 │   └── render.yaml
+├── supabase/migrations/     # Postgres schema migrations, applied only after RLS review
 ├── docs/
 │   └── PROJECT_CHECKLIST.md # Numbered build/release checklist
 ├── AWIBI_DIGITMED_V1_BUILD_SPEC.md
@@ -82,10 +83,10 @@ Clinical Digitization/
 | Routing | React Router | Directly addressable pilot routes without V1 auth guards |
 | Icons | Lucide React | Consistent accessible SVG icon system |
 | Client persistence | IndexedDB + localStorage | Preserve sources and demo jobs across reloads |
-| Current API | Flask + Flask-CORS | Small clear API boundary that can be run on Render |
-| Future database/auth/storage | Supabase | Postgres, Storage, Auth, Row Level Security, and realtime options |
+| Current API | Node.js, Express, CORS | Small clear API boundary that can be run on Render |
+| Database/auth/storage | Supabase | Postgres, private Storage, future Auth, Row Level Security, and realtime options |
 | Frontend hosting | Vercel | Static frontend deployment |
-| API hosting | Render | Python web-service deployment |
+| API hosting | Render | Node.js web-service deployment |
 | Training environment | Python + GPU environment, to be added | Reproducible preprocessing, training, and evaluation |
 
 ## Application routes
@@ -115,15 +116,14 @@ Create a production bundle with:
 npm run build
 ```
 
-### Flask API stub
+### Node.js API
 
-Prerequisite: Python 3.10 or later.
+Prerequisite: Node 20.16 or later.
 
 ```powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r backend/requirements.txt
-python backend/app.py
+cd backend
+npm install
+npm run dev
 ```
 
 Check `http://127.0.0.1:5000/api/v1/health`.
@@ -249,8 +249,8 @@ Before pushing, confirm `.env`, raw patient data, model weights containing sensi
 
 1. Sign in to Render and create a **Web Service** from the same GitHub repository.
 2. Set root directory to `backend`.
-3. Set build command to `pip install -r requirements.txt`.
-4. Set start command to `gunicorn app:app`.
+3. Set build command to `npm ci`.
+4. Set start command to `npm start`.
 5. Test `/api/v1/health` after deployment.
 6. Only switch the frontend to `VITE_AI_MODE=live` when the deployed API and its error/retry handling are verified.
 
